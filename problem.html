@@ -1,0 +1,794 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Problem | Code Practice Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050505;
+            color: #f5f5f5;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.25);
+            background: #080808;
+        }
+
+        .logo {
+            color: #ffc107;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #ffc107;
+        }
+
+        /* MAIN TWO COLUMN LAYOUT */
+
+        .page {
+            display: grid;
+            grid-template-columns: 48% 52%;
+            min-height: calc(100vh - 72px);
+        }
+
+        /* LEFT */
+
+        .problem-section {
+            padding: 42px 45px;
+            border-right: 1px solid rgba(255, 193, 7, 0.2);
+            overflow-y: auto;
+        }
+
+        .topic {
+            display: inline-block;
+            padding: 7px 13px;
+            border: 1px solid rgba(255, 193, 7, 0.35);
+            border-radius: 20px;
+            color: #ffc107;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .problem-number {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .content-block {
+            margin-bottom: 28px;
+        }
+
+        .content-block h2 {
+            color: #ffc107;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .content-block p {
+            color: #cfcfcf;
+            font-size: 15px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .example-box {
+            background: #0d0d0d;
+            border: 1px solid #252525;
+            border-radius: 10px;
+            padding: 15px;
+            color: #ddd;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
+        }
+
+        /* RIGHT */
+
+        .editor-section {
+            padding: 30px;
+            background: #080808;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .editor-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .language {
+            color: #ffc107;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .editor {
+            width: 100%;
+            height: 430px;
+            resize: vertical;
+            background: #030303;
+            color: #f1f1f1;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 20px;
+            outline: none;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .editor:focus {
+            border-color: rgba(255, 193, 7, 0.7);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.08);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .run-btn {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .run-btn:hover {
+            background: #ffd54f;
+        }
+
+        .submit-btn {
+            background: #1b1b1b;
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .submit-btn:hover {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .next-btn {
+            background: #111;
+            color: #aaa;
+            border: 1px solid #333;
+        }
+
+        .next-btn:hover {
+            color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .output-title {
+            color: #ffc107;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            min-height: 150px;
+            max-height: 260px;
+            overflow-y: auto;
+            background: #030303;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 18px;
+            color: #ddd;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .problem-section {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+            }
+
+            .editor-section {
+                min-height: 700px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CODE PRACTICE TRACKER</div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="practice.html">Practice</a>
+        <a href="progress.html">Progress</a>
+    </nav>
+</header>
+
+
+<div class="page">
+
+    <!-- ================= LEFT SIDE ================= -->
+
+    <section class="problem-section">
+
+        <div id="topic" class="topic">Java</div>
+
+        <h1 id="title">Loading problem...</h1>
+
+        <div id="problemNumber" class="problem-number">
+            Problem
+        </div>
+
+
+        <div class="content-block">
+            <h2>Problem</h2>
+            <p id="statement"></p>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Explanation</h2>
+            <p id="explanation"></p>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Input</h2>
+            <p id="input"></p>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Output</h2>
+            <p id="output"></p>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Example Input</h2>
+            <div id="sampleInput" class="example-box"></div>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Example Output</h2>
+            <div id="sampleOutput" class="example-box"></div>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Constraints</h2>
+            <p id="constraints"></p>
+        </div>
+
+
+        <div class="content-block">
+            <h2>Hint</h2>
+            <p id="hint"></p>
+        </div>
+
+    </section>
+
+
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <section class="editor-section">
+
+        <div class="editor-top">
+            <div class="language">JAVA 21</div>
+        </div>
+
+
+        <textarea
+            id="code"
+            class="editor"
+            spellcheck="false"
+            placeholder="// Write your Java code here
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+    }
+}"
+        ></textarea>
+
+
+        <div class="buttons">
+
+            <button
+                class="run-btn"
+                onclick="runCode()">
+                RUN
+            </button>
+
+            <button
+                class="submit-btn"
+                onclick="submitCode()">
+                SUBMIT
+            </button>
+
+            <button
+                class="next-btn"
+                onclick="nextQuestion()">
+                NEXT QUESTION
+            </button>
+
+        </div>
+
+
+        <div class="output-title">
+            OUTPUT
+        </div>
+
+        <div id="result">
+            Output will appear here...
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="questions.js"></script>
+
+<script>
+
+    /* =========================================
+       LOAD SELECTED QUESTION
+    ========================================= */
+
+    let selectedProblem = null;
+
+    try {
+        selectedProblem =
+            JSON.parse(
+                localStorage.getItem("selectedProblem")
+            );
+    } catch (error) {
+        selectedProblem = null;
+    }
+
+
+    if (!selectedProblem) {
+
+        document.getElementById("title").textContent =
+            "No problem selected";
+
+        document.getElementById("statement").textContent =
+            "Please go back to the Practice page and select a problem.";
+
+    } else {
+
+        document.getElementById("topic").textContent =
+            selectedProblem.topic || "Java";
+
+        document.getElementById("title").textContent =
+            selectedProblem.title || "";
+
+        document.getElementById("problemNumber").textContent =
+            "Problem #" +
+            (selectedProblem.number || selectedProblem.id || "") +
+            " • Java";
+
+        document.getElementById("statement").textContent =
+            selectedProblem.statement || "";
+
+        document.getElementById("explanation").textContent =
+            selectedProblem.explanation || "";
+
+        document.getElementById("input").textContent =
+            selectedProblem.input || "";
+
+        document.getElementById("output").textContent =
+            selectedProblem.output || "";
+
+        document.getElementById("sampleInput").textContent =
+            selectedProblem.sampleInput || "";
+
+        document.getElementById("sampleOutput").textContent =
+            selectedProblem.sampleOutput || "";
+
+        document.getElementById("constraints").textContent =
+            selectedProblem.constraints || "";
+
+        document.getElementById("hint").textContent =
+            selectedProblem.hint || "";
+    }
+
+
+    /* =========================================
+       RUN CODE
+    ========================================= */
+
+    async function runCode() {
+
+        const code =
+            document.getElementById("code").value;
+
+        const result =
+            document.getElementById("result");
+
+
+        if (code.trim() === "") {
+
+            result.textContent =
+                "Please write your Java code first.";
+
+            return;
+        }
+
+
+        result.textContent =
+            "Running your Java program...";
+
+
+        const input =
+            selectedProblem?.sampleInput || "";
+
+
+        const requestBody =
+            "INPUT:\n" +
+            input +
+            "\nCODE:\n" +
+            code;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:8080/run",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "text/plain"
+                        },
+
+                        body: requestBody
+                    }
+                );
+
+
+            const output =
+                await response.text();
+
+
+            result.textContent =
+                output;
+
+        } catch (error) {
+
+            result.textContent =
+                "❌ Could not connect to Java Runner.\n\n" +
+                "Make sure CodeRunnerServer is running on port 8080.";
+        }
+    }
+
+
+    /* =========================================
+       SUBMIT CODE
+    ========================================= */
+
+    async function submitCode() {
+
+        const code =
+            document.getElementById("code").value;
+
+        const result =
+            document.getElementById("result");
+
+
+        if (code.trim() === "") {
+
+            result.textContent =
+                "❌ Please write your Java code first.";
+
+            return;
+        }
+
+
+        if (!selectedProblem) {
+
+            result.textContent =
+                "❌ No problem selected.";
+
+            return;
+        }
+
+
+        result.textContent =
+            "Checking your solution...";
+
+
+        /*
+         * Use the sample input from the
+         * selected question.
+         */
+
+        const input =
+            selectedProblem.sampleInput || "";
+
+
+        const requestBody =
+            "INPUT:\n" +
+            input +
+            "\nCODE:\n" +
+            code;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:8080/run",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "text/plain"
+                        },
+
+                        body: requestBody
+                    }
+                );
+
+
+            const actualOutput =
+                await response.text();
+
+
+            /* COMPILATION ERROR */
+
+            if (
+                actualOutput.startsWith(
+                    "Compilation Error:"
+                )
+            ) {
+
+                result.textContent =
+                    "❌ Compilation Error\n\n" +
+                    actualOutput;
+
+                return;
+            }
+
+
+            /*
+             * Compare the user's actual output
+             * with the expected output stored
+             * inside questions.js.
+             */
+
+            const expectedOutput =
+                (
+                    selectedProblem.sampleOutput ||
+                    ""
+                ).trim();
+
+
+            const userOutput =
+                actualOutput.trim();
+
+
+            /* CORRECT */
+
+            if (
+                userOutput === expectedOutput
+            ) {
+
+                let solvedProblems = [];
+
+                try {
+
+                    solvedProblems =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "solvedProblems"
+                            ) || "[]"
+                        );
+
+                } catch (error) {
+
+                    solvedProblems = [];
+                }
+
+
+                const problemId =
+                    selectedProblem.id;
+
+
+                const alreadySolved =
+                    solvedProblems.includes(
+                        problemId
+                    );
+
+
+                if (!alreadySolved) {
+
+                    solvedProblems.push(
+                        problemId
+                    );
+
+
+                    localStorage.setItem(
+                        "solvedProblems",
+                        JSON.stringify(
+                            solvedProblems
+                        )
+                    );
+
+
+                    let xp =
+                        Number(
+                            localStorage.getItem(
+                                "xp"
+                            ) || "0"
+                        );
+
+
+                    xp += 10;
+
+
+                    localStorage.setItem(
+                        "xp",
+                        xp.toString()
+                    );
+
+
+                    result.textContent =
+                        "🎉 EXCELLENT!\n\n" +
+                        "✅ Correct Answer!\n\n" +
+                        "+10 XP";
+
+                } else {
+
+                    result.textContent =
+                        "🎉 EXCELLENT!\n\n" +
+                        "✅ Correct Answer!\n\n" +
+                        "You already solved this problem.";
+                }
+
+
+                return;
+            }
+
+
+            /* WRONG ANSWER */
+
+            result.textContent =
+                "❌ WRONG ANSWER\n\n" +
+                "Expected Output:\n" +
+                expectedOutput +
+                "\n\n" +
+                "Your Output:\n" +
+                userOutput;
+
+        } catch (error) {
+
+            result.textContent =
+                "❌ Could not connect to Java Runner.\n\n" +
+                "Make sure CodeRunnerServer is running on port 8080.";
+        }
+    }
+
+
+    /* =========================================
+       NEXT QUESTION
+    ========================================= */
+
+    function nextQuestion() {
+
+        window.location.href =
+            "practice.html";
+    }
+
+
+    /* =========================================
+       TAB KEY SUPPORT
+    ========================================= */
+
+    document
+        .getElementById("code")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Tab") {
+
+                    event.preventDefault();
+
+                    const start =
+                        this.selectionStart;
+
+                    const end =
+                        this.selectionEnd;
+
+
+                    this.value =
+                        this.value.substring(
+                            0,
+                            start
+                        ) +
+                        "    " +
+                        this.value.substring(
+                            end
+                        );
+
+
+                    this.selectionStart =
+                        this.selectionEnd =
+                        start + 4;
+                }
+            }
+        );
+
+</script>
+
+</body>
+</html>
+```

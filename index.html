@@ -1,0 +1,410 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Code Practice Tracker</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #030303;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* BACKGROUND JAVA CODE */
+
+        .code-background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .code {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.10);
+            font-family: "Courier New", monospace;
+            font-size: 20px;
+            white-space: nowrap;
+            filter: blur(0.2px);
+        }
+
+        .c1 {
+            top: 8%;
+            left: 5%;
+        }
+
+        .c2 {
+            top: 22%;
+            right: 8%;
+        }
+
+        .c3 {
+            top: 42%;
+            left: 12%;
+        }
+
+        .c4 {
+            top: 60%;
+            right: 15%;
+        }
+
+        .c5 {
+            top: 78%;
+            left: 4%;
+        }
+
+        .c6 {
+            top: 88%;
+            right: 7%;
+        }
+
+        .c7 {
+            top: 12%;
+            right: 35%;
+        }
+
+        .c8 {
+            top: 70%;
+            left: 40%;
+        }
+
+        /* GOLD GLOW */
+
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: rgba(212, 175, 55, 0.06);
+            border-radius: 50%;
+            filter: blur(120px);
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        /* MAIN */
+
+        .hero {
+            position: relative;
+            z-index: 2;
+
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+        /* SMALL TOP LABEL */
+
+        .tag {
+            color: #c9a227;
+            letter-spacing: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        /* MAIN TITLE */
+
+        .title {
+            font-size: clamp(48px, 8vw, 105px);
+            font-weight: 900;
+            letter-spacing: 5px;
+            line-height: 0.95;
+
+            background: linear-gradient(
+                120deg,
+                #8a6a18,
+                #d4af37,
+                #f5df8a,
+                #d4af37,
+                #8a6a18
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+
+            text-shadow:
+                0 0 25px rgba(212, 175, 55, 0.15);
+
+            margin-bottom: 30px;
+        }
+
+        /* SUBTITLE */
+
+        .subtitle {
+            max-width: 720px;
+
+            color: #aaa28e;
+
+            font-size: 18px;
+            line-height: 1.7;
+
+            margin-bottom: 38px;
+        }
+
+        /* QUOTE */
+
+        .quote {
+            max-width: 700px;
+
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+            line-height: 1.5;
+
+            color: #e8dcae;
+
+            margin-bottom: 45px;
+        }
+
+        .quote span {
+            color: #d4af37;
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 32px;
+
+            border-radius: 4px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .primary {
+            background: linear-gradient(
+                135deg,
+                #b88a1d,
+                #d4af37,
+                #a77b17
+            );
+
+            color: #080808;
+
+            border: none;
+
+            box-shadow:
+                0 0 25px rgba(212, 175, 55, 0.18);
+        }
+
+        .primary:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 0 35px rgba(212, 175, 55, 0.35);
+        }
+
+        .secondary {
+            background: transparent;
+
+            color: #d4af37;
+
+            border: 1px solid #80651f;
+        }
+
+        .secondary:hover {
+            background: rgba(212, 175, 55, 0.08);
+
+            border-color: #d4af37;
+        }
+
+        /* BOTTOM LINE */
+
+        .bottom {
+            position: absolute;
+
+            bottom: 25px;
+
+            color: #554d3c;
+
+            font-family: "Courier New", monospace;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .title {
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .quote {
+                font-size: 20px;
+            }
+
+            .code {
+                font-size: 15px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- FAINT JAVA CODE IN BACKGROUND -->
+
+    <div class="code-background">
+
+        <div class="code c1">
+            import java.util.*;
+        </div>
+
+        <div class="code c2">
+            public class Practice {
+        </div>
+
+        <div class="code c3">
+            public static void main(String[] args) {
+        </div>
+
+        <div class="code c4">
+            System.out.println("Keep Coding");
+        </div>
+
+        <div class="code c5">
+            int problemsSolved = 100;
+        </div>
+
+        <div class="code c6">
+            Scanner input = new Scanner(System.in);
+        </div>
+
+        <div class="code c7">
+            new ArrayList&lt;&gt;();
+        </div>
+
+        <div class="code c8">
+            if (practice) { success++; }
+        </div>
+
+    </div>
+
+
+    <!-- SOFT GOLD LIGHT -->
+
+    <div class="glow"></div>
+
+
+    <!-- HERO -->
+
+    <main class="hero">
+
+        <div class="tag">
+            Master • Practice • Progress
+        </div>
+
+
+        <h1 class="title">
+            CODE<br>
+            PRACTICE<br>
+            TRACKER
+        </h1>
+
+
+        <p class="subtitle">
+            A focused space to practice programming,
+            solve problems, track your progress,
+            and become a better developer every day.
+        </p>
+
+
+        <div class="quote">
+
+            “Every problem you solve today is one step closer
+            to becoming the programmer you want to be.”
+
+            <span>Keep coding.</span>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <!-- START PRACTICING -->
+
+            <button
+                class="btn primary"
+                onclick="startPracticing()">
+                START PRACTICING
+            </button>
+
+
+            <!-- VIEW PROGRESS -->
+
+            <button class="btn secondary" onclick="window.location.href='progress.html'">
+    VIEW PROGRESS
+</button>
+
+        </div>
+
+
+        <div class="bottom">
+            &lt; CODE • THINK • SOLVE • REPEAT /&gt;
+        </div>
+
+    </main>
+
+
+    <!-- START PRACTICING FUNCTION -->
+
+    <script>
+
+        function startPracticing() {
+
+            window.location.href = "login.html";
+
+        }
+
+    </script>
+
+</body>
+</html>
+```

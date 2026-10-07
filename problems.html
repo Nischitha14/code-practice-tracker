@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem | Code Practice Tracker</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080808;
+    color: #f5f5f5;
+}
+
+header {
+    height: 72px;
+    background: #0d0d0d;
+    border-bottom: 1px solid #292929;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.logo {
+    color: #d4af37;
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+nav a {
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #d4af37;
+}
+
+.page {
+    padding: 28px;
+}
+
+.back {
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 22px;
+}
+
+.problem-layout {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 20px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.problem-panel,
+.editor-panel {
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 14px;
+}
+
+.problem-panel {
+    padding: 30px;
+}
+
+.badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid #444;
+    color: #ccc;
+}
+
+.badge.gold {
+    color: #d4af37;
+    border-color: #806b24;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.topic {
+    color: #d4af37;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.section p {
+    color: #bdbdbd;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.info-box {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 10px;
+    padding: 15px;
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.example {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.example-box {
+    background: #080808;
+    border: 1px solid #292929;
+    border-radius: 9px;
+    padding: 14px;
+}
+
+.example-box strong {
+    display: block;
+    color: #d4af37;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.example-box pre {
+    color: #ddd;
+    white-space: pre-wrap;
+}
+
+/* EDITOR */
+
+.editor-panel {
+    overflow: hidden;
+    min-height: 720px;
+}
+
+.editor-header {
+    height: 60px;
+    background: #151515;
+    border-bottom: 1px solid #292929;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.language {
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.run-btn {
+    background: #d4af37;
+    color: #080808;
+}
+
+.run-btn:hover {
+    background: #e4c45c;
+}
+
+.submit-btn {
+    background: #222;
+    color: #d4af37;
+    border: 1px solid #806b24;
+}
+
+.submit-btn:hover {
+    background: #2b2b2b;
+}
+
+.editor-title,
+.output-title {
+    padding: 15px 18px 8px;
+    color: #aaa;
+    font-size: 13px;
+}
+
+textarea {
+    width: calc(100% - 36px);
+    margin: 0 18px;
+    height: 380px;
+    resize: vertical;
+    background: #070707;
+    border: 1px solid #292929;
+    border-radius: 8px;
+    color: #f1f1f1;
+    padding: 18px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #806b24;
+}
+
+.output {
+    margin: 0 18px;
+    min-height: 110px;
+    background: #070707;
+    border: 1px solid #292929;
+    border-radius: 8px;
+    padding: 15px;
+    white-space: pre-wrap;
+    font-family: Consolas, Monaco, monospace;
+    color: #ddd;
+}
+
+.result {
+    margin: 15px 18px;
+    padding: 15px;
+    border-radius: 9px;
+    display: none;
+}
+
+.result.success {
+    display: block;
+    background: rgba(40, 140, 70, 0.12);
+    border: 1px solid #2c8a4b;
+    color: #65d88b;
+}
+
+.result.error {
+    display: block;
+    background: rgba(190, 50, 50, 0.10);
+    border: 1px solid #8d3030;
+    color: #ef7777;
+}
+
+.next-area {
+    padding: 5px 18px 20px;
+    text-align: right;
+}
+
+.next-btn {
+    background: transparent;
+    color: #d4af37;
+    border: 1px solid #806b24;
+}
+
+@media(max-width: 950px) {
+    .problem-layout {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 0 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CODE PRACTICE
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="practice.html">Practice</a>
+        <a href="problems.html">Problems</a>
+        <a href="#">Progress</a>
+    </nav>
+
+</header>
+
+
+<div class="page">
+
+    <a href="practice.html" class="back">
+        ← Back to Practice
+    </a>
+
+    <div class="problem-layout">
+
+        <!-- LEFT SIDE -->
+
+        <div class="problem-panel">
+
+            <div class="badges">
+                <span class="badge gold">Java</span>
+                <span class="badge">Easy</span>
+            </div>
+
+            <h1>Even or Odd</h1>
+
+            <div class="topic">
+                Problem #2 • Java Basics
+            </div>
+
+
+            <div class="section">
+
+                <h2>Problem</h2>
+
+                <p>
+                    Write a Java program that reads an integer and
+                    determines whether the number is even or odd.
+                </p>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Explanation</h2>
+
+                <p>
+                    A number is even when it is completely divisible
+                    by 2. Otherwise, the number is odd.
+                    Use the modulus operator (%) to check the remainder.
+                </p>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Input</h2>
+
+                <div class="info-box">
+                    The first line contains one integer N.
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Output</h2>
+
+                <div class="info-box">
+                    Print <b>Even</b> if N is even.
+                    Otherwise, print <b>Odd</b>.
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Example</h2>
+
+                <div class="example">
+
+                    <div class="example-box">
+
+                        <strong>Sample Input</strong>
+
+                        <pre>8</pre>
+
+                    </div>
+
+
+                    <div class="example-box">
+
+                        <strong>Sample Output</strong>
+
+                        <pre>Even</pre>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Constraints</h2>
+
+                <div class="info-box">
+                    -10<sup>9</sup> ≤ N ≤ 10<sup>9</sup>
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>💡 Hint</h2>
+
+                <div class="info-box">
+                    Check whether <b>N % 2 == 0</b>.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="editor-panel">
+
+            <div class="editor-header">
+
+                <div class="language">
+                    JAVA 21
+                </div>
+
+                <div class="buttons">
+
+                    <button
+                        class="run-btn"
+                        onclick="runCode()">
+                        ▶ Run
+                    </button>
+
+                    <button
+                        class="submit-btn"
+                        onclick="submitCode()">
+                        ✓ Submit
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="editor-title">
+                Write your Java code
+            </div>
+
+
+            <textarea id="codeEditor">import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        if (n % 2 == 0) {
+            System.out.println("Even");
+        } else {
+            System.out.println("Odd");
+        }
+
+    }
+}</textarea>
+
+
+            <div class="output-title">
+                Console Output
+            </div>
+
+
+            <div id="output" class="output">
+                Click Run to execute your Java code...
+            </div>
+
+
+            <div id="result" class="result"></div>
+
+
+            <div class="next-area">
+
+                <button
+                    class="next-btn"
+                    onclick="nextQuestion()">
+                    Next Question →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   RUN CODE
+================================ */
+
+async function runCode() {
+
+    const code =
+        document.getElementById("codeEditor").value;
+
+    const output =
+        document.getElementById("output");
+
+    const result =
+        document.getElementById("result");
+
+    result.className = "result";
+    result.textContent = "";
+
+    output.textContent =
+        "Running Java code...";
+
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/run",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: code
+            }
+        );
+
+
+        const text =
+            await response.text();
+
+
+        output.textContent =
+            text || "No output.";
+
+    }
+
+    catch (error) {
+
+        output.textContent =
+            "Could not connect to Java server.\n\n" +
+            "Make sure CodeRunnerServer is running.";
+
+    }
+
+}
+
+
+/* ================================
+   SUBMIT CODE
+================================ */
+
+async function submitCode() {
+
+    const code =
+        document.getElementById("codeEditor").value;
+
+    const output =
+        document.getElementById("output");
+
+    const result =
+        document.getElementById("result");
+
+
+    result.className = "result";
+
+    result.textContent = "";
+
+    output.textContent =
+        "Running test case...";
+
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/run",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: code
+            }
+        );
+
+
+        const text =
+            await response.text();
+
+
+        output.textContent = text;
+
+
+        /* Compilation error */
+
+        if (text.includes("Compilation Error")) {
+
+            result.className =
+                "result error";
+
+            result.textContent =
+                "❌ Compilation Error — Fix your code and try again.";
+
+            return;
+        }
+
+
+        /* Expected answer */
+
+        const expected =
+            "Even";
+
+
+        const actual =
+            text.trim();
+
+
+        if (actual === expected) {
+
+            result.className =
+                "result success";
+
+            result.textContent =
+                "🎉 Excellent! Accepted!\n\n" +
+                "Your output is correct.\n" +
+                "+10 XP";
+
+        }
+
+        else {
+
+            result.className =
+                "result error";
+
+            result.textContent =
+                "❌ Wrong Answer\n\n" +
+                "Expected: " + expected +
+                "\nYour Output: " + actual;
+
+        }
+
+    }
+
+    catch (error) {
+
+        output.textContent =
+            "Connection error.";
+
+        result.className =
+            "result error";
+
+        result.textContent =
+            "❌ Java server is not running.";
+
+    }
+
+}
+
+
+/* ================================
+   NEXT QUESTION
+================================ */
+
+function nextQuestion() {
+
+    window.location.href =
+        "practice.html";
+
+}
+
+</script>
+
+</body>
+</html>

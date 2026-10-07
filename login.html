@@ -1,0 +1,710 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Code Practice Tracker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    rgba(255, 193, 7, 0.12),
+                    transparent 35%
+                ),
+                #050505;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 45px;
+            background: #080808;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.25);
+        }
+
+        .logo {
+            color: #ffc107;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #ffc107;
+        }
+
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 430px;
+            padding: 42px;
+            background: rgba(10, 10, 10, 0.97);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 18px;
+            box-shadow:
+                0 0 45px rgba(255, 193, 7, 0.08);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #ffc107;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            background: #050505;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 12px rgba(255, 193, 7, 0.08);
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            background: #ffc107;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .main-btn:hover {
+            background: #ffd54f;
+        }
+
+        .switch {
+            text-align: center;
+            margin-top: 24px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .switch button {
+            background: none;
+            border: none;
+            color: #ffc107;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .switch button:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            min-height: 20px;
+            text-align: center;
+            margin-top: 17px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            .login-box {
+                padding: 30px 22px;
+            }
+
+            .login-box h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CODE PRACTICE TRACKER
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="practice.html">Practice</a>
+    </nav>
+
+</header>
+
+
+<div class="login-wrapper">
+
+    <div class="login-box">
+
+        <!-- LOGIN -->
+
+        <div id="loginSection">
+
+            <h1>Welcome Back</h1>
+
+            <p class="subtitle">
+                Login to continue your coding practice
+            </p>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+                    <label for="loginUsername">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="loginUsername"
+                        placeholder="Enter your username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="main-btn">
+                    LOGIN
+                </button>
+
+            </form>
+
+
+            <div id="loginMessage"></div>
+
+
+            <div class="switch">
+
+                Don't have an account?
+
+                <button
+                    type="button"
+                    onclick="showSignup()">
+                    Create Account
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIGN UP -->
+
+        <div id="signupSection" class="hidden">
+
+            <h1>Create Account</h1>
+
+            <p class="subtitle">
+                Start your coding journey
+            </p>
+
+
+            <form id="signupForm">
+
+                <div class="input-group">
+
+                    <label for="signupUsername">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupUsername"
+                        placeholder="Choose a username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="signupEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="signupPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="main-btn">
+                    CREATE ACCOUNT
+                </button>
+
+            </form>
+
+
+            <div id="signupMessage"></div>
+
+
+            <div class="switch">
+
+                Already have an account?
+
+                <button
+                    type="button"
+                    onclick="showLogin()">
+                    Login
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================================
+       SHOW LOGIN
+    ========================================= */
+
+    function showLogin() {
+
+        document
+            .getElementById("loginSection")
+            .classList
+            .remove("hidden");
+
+        document
+            .getElementById("signupSection")
+            .classList
+            .add("hidden");
+
+    }
+
+
+    /* =========================================
+       SHOW SIGN UP
+    ========================================= */
+
+    function showSignup() {
+
+        document
+            .getElementById("loginSection")
+            .classList
+            .add("hidden");
+
+        document
+            .getElementById("signupSection")
+            .classList
+            .remove("hidden");
+
+    }
+
+
+    /* =========================================
+       CREATE ACCOUNT
+    ========================================= */
+
+    document
+        .getElementById("signupForm")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const username =
+                    document
+                        .getElementById("signupUsername")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("signupEmail")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("signupPassword")
+                        .value;
+
+
+                const confirmPassword =
+                    document
+                        .getElementById("confirmPassword")
+                        .value;
+
+
+                const message =
+                    document.getElementById(
+                        "signupMessage"
+                    );
+
+
+                if (
+                    username === "" ||
+                    email === "" ||
+                    password === "" ||
+                    confirmPassword === ""
+                ) {
+
+                    message.textContent =
+                        "Please fill in all fields.";
+
+                    message.style.color =
+                        "#ff5252";
+
+                    return;
+                }
+
+
+                if (password.length < 6) {
+
+                    message.textContent =
+                        "Password must contain at least 6 characters.";
+
+                    message.style.color =
+                        "#ff5252";
+
+                    return;
+                }
+
+
+                if (password !== confirmPassword) {
+
+                    message.textContent =
+                        "Passwords do not match.";
+
+                    message.style.color =
+                        "#ff5252";
+
+                    return;
+                }
+
+
+                /*
+                 * Check whether an account
+                 * already exists.
+                 */
+
+                const existingUser =
+                    localStorage.getItem(
+                        "registeredUser"
+                    );
+
+
+                if (existingUser) {
+
+                    message.textContent =
+                        "An account already exists in this browser.";
+
+                    message.style.color =
+                        "#ff5252";
+
+                    return;
+                }
+
+
+                /*
+                 * Save account.
+                 */
+
+                localStorage.setItem(
+                    "registeredUser",
+                    username
+                );
+
+                localStorage.setItem(
+                    "registeredEmail",
+                    email
+                );
+
+                localStorage.setItem(
+                    "registeredPassword",
+                    password
+                );
+
+
+                /*
+                 * Login automatically.
+                 */
+
+                localStorage.setItem(
+                    "loggedIn",
+                    "true"
+                );
+
+                localStorage.setItem(
+                    "currentUser",
+                    username
+                );
+
+
+                message.textContent =
+                    "Account created successfully!";
+
+                message.style.color =
+                    "#ffc107";
+
+
+                /*
+                 * Go to practice page.
+                 */
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "practice.html";
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+
+    /* =========================================
+       LOGIN
+    ========================================= */
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const username =
+                    document
+                        .getElementById("loginUsername")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("loginPassword")
+                        .value;
+
+
+                const message =
+                    document.getElementById(
+                        "loginMessage"
+                    );
+
+
+                const savedUsername =
+                    localStorage.getItem(
+                        "registeredUser"
+                    );
+
+
+                const savedPassword =
+                    localStorage.getItem(
+                        "registeredPassword"
+                    );
+
+
+                if (
+                    !savedUsername ||
+                    !savedPassword
+                ) {
+
+                    message.textContent =
+                        "No account found. Please create an account first.";
+
+                    message.style.color =
+                        "#ff5252";
+
+                    return;
+                }
+
+
+                if (
+                    username === savedUsername &&
+                    password === savedPassword
+                ) {
+
+                    localStorage.setItem(
+                        "loggedIn",
+                        "true"
+                    );
+
+                    localStorage.setItem(
+                        "currentUser",
+                        username
+                    );
+
+
+                    message.textContent =
+                        "Login successful!";
+
+                    message.style.color =
+                        "#ffc107";
+
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "practice.html";
+
+                        },
+                        700
+                    );
+
+                } else {
+
+                    message.textContent =
+                        "Incorrect username or password.";
+
+                    message.style.color =
+                        "#ff5252";
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+</html>
+```

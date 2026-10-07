@@ -1,0 +1,1009 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Progress | Code Practice Tracker</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #030303;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 50px;
+
+            border-bottom: 1px solid #252015;
+
+            background: rgba(3, 3, 3, 0.95);
+        }
+
+        .logo {
+            color: #d4af37;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #8d8778;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #d4af37;
+        }
+
+        /* PAGE */
+
+        .container {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 55px 30px 80px;
+        }
+
+        .heading {
+            margin-bottom: 45px;
+        }
+
+        .heading small {
+            color: #d4af37;
+
+            letter-spacing: 4px;
+
+            font-size: 12px;
+        }
+
+        .heading h1 {
+            margin-top: 12px;
+
+            font-size: 48px;
+
+            background: linear-gradient(
+                120deg,
+                #a77b17,
+                #d4af37,
+                #f5df8a
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .heading p {
+            color: #777268;
+
+            margin-top: 12px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 40px;
+        }
+
+        .stat {
+            background: #0b0b0b;
+
+            border: 1px solid #292317;
+
+            padding: 28px;
+
+            border-radius: 8px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .stat::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 3px;
+            height: 100%;
+
+            background: #d4af37;
+        }
+
+        .stat-label {
+            color: #777268;
+
+            font-size: 13px;
+
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            color: #d4af37;
+
+            font-size: 32px;
+
+            font-weight: bold;
+        }
+
+        /* MAIN GRID */
+
+        .main-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+        }
+
+        .card {
+            background: #0b0b0b;
+
+            border: 1px solid #292317;
+
+            border-radius: 8px;
+
+            padding: 30px;
+        }
+
+        .card h2 {
+            color: #e4d8ad;
+
+            font-size: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        /* PROGRESS BAR */
+
+        .overall {
+            margin-bottom: 30px;
+        }
+
+        .overall-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 10px;
+
+            color: #aaa28e;
+
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+
+            height: 10px;
+
+            background: #211e17;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+
+            width: 0%;
+
+            background: linear-gradient(
+                90deg,
+                #8d6818,
+                #d4af37,
+                #f0d875
+            );
+
+            transition: width 0.5s;
+        }
+
+        /* TOPIC PROGRESS */
+
+        .topic {
+            margin-bottom: 20px;
+        }
+
+        .topic-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            color: #aaa28e;
+
+            font-size: 13px;
+        }
+
+        .topic-bar {
+            height: 6px;
+
+            background: #211e17;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .topic-fill {
+            height: 100%;
+
+            width: 0%;
+
+            background: #d4af37;
+        }
+
+        /* RECENT ACTIVITY */
+
+        .activity {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 16px 0;
+
+            border-bottom: 1px solid #211e17;
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-title {
+            color: #ddd5bc;
+
+            font-size: 14px;
+        }
+
+        .activity-topic {
+            color: #706a5c;
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+        .xp {
+            color: #d4af37;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+        .empty {
+            color: #666158;
+
+            font-size: 14px;
+
+            padding: 20px 0;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .heading h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 35px 18px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CODEBLOCK
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="practice.html">
+            Practice
+        </a>
+
+        <a href="progress.html" class="active">
+            Progress
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="heading">
+
+        <small>
+            YOUR JOURNEY
+        </small>
+
+        <h1>
+            Progress
+        </h1>
+
+        <p>
+            Track your coding journey and see how far you've come.
+        </p>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                TOTAL XP
+            </div>
+
+            <div
+                class="stat-value"
+                id="xp">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                PROBLEMS SOLVED
+            </div>
+
+            <div
+                class="stat-value"
+                id="solved">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                ACCURACY
+            </div>
+
+            <div
+                class="stat-value"
+                id="accuracy">
+                0%
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                CURRENT STREAK
+            </div>
+
+            <div
+                class="stat-value"
+                id="streak">
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="main-grid">
+
+
+        <!-- OVERALL PROGRESS -->
+
+        <div class="card">
+
+            <h2>
+                Overall Progress
+            </h2>
+
+
+            <div class="overall">
+
+                <div class="overall-top">
+
+                    <span>
+                        Java Practice
+                    </span>
+
+                    <span id="overallPercent">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        id="overallFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <p style="
+                    color:#777268;
+                    font-size:13px;
+                    line-height:1.7;
+                ">
+                    Keep solving problems to increase your
+                    experience and build consistency.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="card">
+
+            <h2>
+                Recent Activity
+            </h2>
+
+            <div id="activity">
+
+                <div class="empty">
+                    No problems solved yet.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOPIC PROGRESS -->
+
+        <div class="card">
+
+            <h2>
+                Topic Progress
+            </h2>
+
+            <div id="topicProgress"></div>
+
+        </div>
+
+
+        <!-- ACHIEVEMENTS -->
+
+        <div class="card">
+
+            <h2>
+                Achievements
+            </h2>
+
+
+            <div id="achievements">
+
+                <div class="activity">
+
+                    <div>
+
+                        <div class="activity-title">
+                            First Problem
+                        </div>
+
+                        <div class="activity-topic">
+                            Solve your first coding problem
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="xp"
+                        id="firstBadge">
+                        🔒
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <div>
+
+                        <div class="activity-title">
+                            10 Problems
+                        </div>
+
+                        <div class="activity-topic">
+                            Solve 10 problems
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="xp"
+                        id="tenBadge">
+                        🔒
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <div>
+
+                        <div class="activity-title">
+                            50 Problems
+                        </div>
+
+                        <div class="activity-topic">
+                            Solve 50 problems
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="xp"
+                        id="fiftyBadge">
+                        🔒
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <div>
+
+                        <div class="activity-title">
+                            100 Problems
+                        </div>
+
+                        <div class="activity-topic">
+                            Solve 100 problems
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="xp"
+                        id="hundredBadge">
+                        🔒
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    /* ============================
+       GET SAVED DATA
+    ============================ */
+
+    const solvedProblems =
+        JSON.parse(
+            localStorage.getItem("solvedProblems") || "[]"
+        );
+
+
+    const xp =
+        Number(
+            localStorage.getItem("xp") || 0
+        );
+
+
+    /* ============================
+       BASIC STATS
+    ============================ */
+
+    document.getElementById("xp").textContent =
+        xp;
+
+
+    document.getElementById("solved").textContent =
+        solvedProblems.length;
+
+
+    /* ============================
+       ACCURACY
+    ============================ */
+
+    /*
+       Current system records solved
+       questions, so completed questions
+       are treated as successful attempts.
+    */
+
+    let accuracy = 0;
+
+    if (solvedProblems.length > 0) {
+        accuracy = 100;
+    }
+
+    document.getElementById("accuracy").textContent =
+        accuracy + "%";
+
+
+    /* ============================
+       OVERALL PROGRESS
+    ============================ */
+
+    const totalQuestions =
+        typeof questions !== "undefined"
+            ? questions.length
+            : 100;
+
+
+    let overall =
+        Math.round(
+            (solvedProblems.length / totalQuestions) * 100
+        );
+
+
+    if (overall > 100) {
+        overall = 100;
+    }
+
+
+    document.getElementById("overallPercent").textContent =
+        overall + "%";
+
+
+    document.getElementById("overallFill").style.width =
+        overall + "%";
+
+
+    /* ============================
+       STREAK
+    ============================ */
+
+    /*
+       Simple streak based on the number
+       of solved problems for the current demo.
+    */
+
+    let streak = 0;
+
+    if (solvedProblems.length > 0) {
+        streak = 1;
+    }
+
+    if (solvedProblems.length >= 5) {
+        streak = 2;
+    }
+
+    if (solvedProblems.length >= 10) {
+        streak = 3;
+    }
+
+    if (solvedProblems.length >= 20) {
+        streak = 5;
+    }
+
+    document.getElementById("streak").textContent =
+        streak;
+
+
+    /* ============================
+       TOPIC PROGRESS
+    ============================ */
+
+    const topicContainer =
+        document.getElementById("topicProgress");
+
+
+    if (typeof questions !== "undefined") {
+
+        const topics = {};
+
+
+        questions.forEach(function(question) {
+
+            if (!topics[question.topic]) {
+
+                topics[question.topic] = {
+                    total: 0,
+                    solved: 0
+                };
+
+            }
+
+            topics[question.topic].total++;
+
+        });
+
+
+        solvedProblems.forEach(function(solved) {
+
+            let solvedQuestion =
+                questions.find(function(q) {
+
+                    return String(q.id) === String(solved.id);
+
+                });
+
+
+            if (solvedQuestion) {
+
+                if (topics[solvedQuestion.topic]) {
+
+                    topics[solvedQuestion.topic].solved++;
+
+                }
+
+            }
+
+        });
+
+
+        Object.keys(topics).forEach(function(topic) {
+
+            const data = topics[topic];
+
+
+            const percent =
+                data.total > 0
+                    ? Math.round(
+                        (data.solved / data.total) * 100
+                    )
+                    : 0;
+
+
+            const topicElement =
+                document.createElement("div");
+
+            topicElement.className =
+                "topic";
+
+
+            topicElement.innerHTML = `
+
+                <div class="topic-header">
+
+                    <span>
+                        ${topic}
+                    </span>
+
+                    <span>
+                        ${data.solved}/${data.total}
+                    </span>
+
+                </div>
+
+                <div class="topic-bar">
+
+                    <div
+                        class="topic-fill"
+                        style="width:${percent}%">
+                    </div>
+
+                </div>
+
+            `;
+
+
+            topicContainer.appendChild(
+                topicElement
+            );
+
+        });
+
+    }
+
+
+    /* ============================
+       RECENT ACTIVITY
+    ============================ */
+
+    const activity =
+        document.getElementById("activity");
+
+
+    if (solvedProblems.length > 0) {
+
+        activity.innerHTML = "";
+
+
+        const recent =
+            solvedProblems.slice(-5).reverse();
+
+
+        recent.forEach(function(problem) {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "activity";
+
+
+            item.innerHTML = `
+
+                <div>
+
+                    <div class="activity-title">
+
+                        ${problem.title || "Problem Solved"}
+
+                    </div>
+
+                    <div class="activity-topic">
+
+                        ${problem.topic || "Java"}
+
+                    </div>
+
+                </div>
+
+                <div class="xp">
+                    +10 XP
+                </div>
+
+            `;
+
+
+            activity.appendChild(item);
+
+        });
+
+    }
+
+
+    /* ============================
+       ACHIEVEMENTS
+    ============================ */
+
+    if (solvedProblems.length >= 1) {
+
+        document.getElementById(
+            "firstBadge"
+        ).textContent = "🏆";
+
+    }
+
+
+    if (solvedProblems.length >= 10) {
+
+        document.getElementById(
+            "tenBadge"
+        ).textContent = "🏆";
+
+    }
+
+
+    if (solvedProblems.length >= 50) {
+
+        document.getElementById(
+            "fiftyBadge"
+        ).textContent = "🏆";
+
+    }
+
+
+    if (solvedProblems.length >= 100) {
+
+        document.getElementById(
+            "hundredBadge"
+        ).textContent = "🏆";
+
+    }
+
+</script>
+
+
+<!-- LOAD QUESTION DATABASE -->
+
+<script src="questions.js"></script>
+
+</body>
+</html>
+```

@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Practice | CodeBlock</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+header{
+    height:72px;
+    background:#090909;
+    border-bottom:1px solid #29230f;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#d4af37;
+}
+
+.nav{
+    display:flex;
+    gap:28px;
+}
+
+.nav a{
+    color:#888;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:#d4af37;
+}
+
+.container{
+    width:90%;
+    max-width:1250px;
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.hero{
+    margin-bottom:38px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.hero h1 span{
+    color:#d4af37;
+}
+
+.hero p{
+    color:#858070;
+    font-size:15px;
+    line-height:1.7;
+    max-width:700px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:45px;
+}
+
+.stat{
+    background:#0d0d0d;
+    border:1px solid #292319;
+    border-radius:10px;
+    padding:20px;
+}
+
+.stat-number{
+    color:#d4af37;
+    font-size:27px;
+    font-weight:bold;
+}
+
+.stat-label{
+    color:#777;
+    font-size:12px;
+    margin-top:6px;
+}
+
+.section-title{
+    font-size:23px;
+    margin-bottom:18px;
+}
+
+.topics{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-bottom:45px;
+}
+
+.topic-card{
+    background:#0d0d0d;
+    border:1px solid #292319;
+    border-radius:9px;
+    padding:18px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.topic-card:hover{
+    border-color:#d4af37;
+    transform:translateY(-2px);
+}
+
+.topic-card.active{
+    border-color:#d4af37;
+    background:#12100a;
+    box-shadow:0 0 18px rgba(212,175,55,.08);
+}
+
+.topic-card h3{
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.topic-card p{
+    color:#777;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.topic-count{
+    color:#d4af37;
+    font-size:11px;
+    margin-top:10px;
+}
+
+.search{
+    width:100%;
+    background:#0d0d0d;
+    border:1px solid #302a1b;
+    color:white;
+    padding:15px 18px;
+    border-radius:7px;
+    outline:none;
+    font-size:15px;
+    margin-bottom:18px;
+}
+
+.search:focus{
+    border-color:#d4af37;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.filter{
+    background:#11100c;
+    border:1px solid #37301c;
+    color:#aaa28e;
+    padding:10px 17px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.filter:hover,
+.filter.active{
+    color:#050505;
+    background:#d4af37;
+    border-color:#d4af37;
+}
+
+.problem-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+
+.problem{
+    background:#0d0d0d;
+    border:1px solid #272319;
+    border-radius:9px;
+    padding:21px;
+    transition:.2s;
+}
+
+.problem:hover{
+    border-color:#55503f;
+    transform:translateY(-2px);
+}
+
+.problem-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:13px;
+}
+
+.number{
+    color:#666;
+    font-size:12px;
+}
+
+.difficulty{
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:10px;
+}
+
+.easy{
+    color:#70c89d;
+    background:#10251c;
+}
+
+.medium{
+    color:#d7ae4a;
+    background:#29230f;
+}
+
+.hard{
+    color:#df7777;
+    background:#2b1414;
+}
+
+.problem h3{
+    font-size:17px;
+    margin-bottom:7px;
+}
+
+.topic{
+    color:#d4af37;
+    font-size:12px;
+    margin-bottom:12px;
+}
+
+.description{
+    color:#777;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.solve{
+    width:100%;
+    border:1px solid #6d571d;
+    background:transparent;
+    color:#d4af37;
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.solve:hover{
+    background:#d4af37;
+    color:#050505;
+}
+
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px;
+    border:1px dashed #333;
+    border-radius:10px;
+    color:#777;
+}
+
+@media(max-width:950px){
+
+    .topics{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .problem-list{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:0 20px;
+    }
+
+    .nav{
+        gap:12px;
+    }
+
+    .nav a{
+        font-size:12px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .topics{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">CODEBLOCK</div>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="practice.html" class="active">Practice</a>
+        <a href="progress.html">Progress</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <h1>
+            Master Java.
+            <span>One Problem at a Time.</span>
+        </h1>
+
+        <p>
+            Practice Java from the basics to advanced concepts.
+            Choose a concept, select a problem and start solving.
+        </p>
+
+    </section>
+
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-number" id="totalQuestions">0</div>
+            <div class="stat-label">Total Questions</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="totalConcepts">34</div>
+            <div class="stat-label">Java Concepts</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="easyQuestions">0</div>
+            <div class="stat-label">Easy</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number" id="hardQuestions">0</div>
+            <div class="stat-label">Hard</div>
+        </div>
+
+    </section>
+
+
+    <h2 class="section-title">Java Concepts</h2>
+
+    <section
+        class="topics"
+        id="topics">
+    </section>
+
+
+    <h2 class="section-title">Problems</h2>
+
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="🔍 Search Java problems..."
+    >
+
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            data-filter="all">
+            All
+        </button>
+
+        <button
+            class="filter"
+            data-filter="easy">
+            Easy
+        </button>
+
+        <button
+            class="filter"
+            data-filter="medium">
+            Medium
+        </button>
+
+        <button
+            class="filter"
+            data-filter="hard">
+            Hard
+        </button>
+
+    </div>
+
+
+    <section
+        class="problem-list"
+        id="problemList">
+    </section>
+
+</main>
+
+
+<!-- YOUR REAL QUESTION DATABASE -->
+<script src="questions.js"></script>
+
+
+<script>
+
+/* =====================================================
+   CHECK QUESTION DATABASE
+===================================================== */
+
+if(
+    typeof questions === "undefined" ||
+    !Array.isArray(questions)
+){
+    document.getElementById("problemList").innerHTML = `
+        <div class="empty">
+            <h3 style="color:#d4af37;margin-bottom:10px;">
+                Question database not loaded
+            </h3>
+
+            <p>
+                Make sure questions.js is in the same folder
+                as practice.html.
+            </p>
+        </div>
+    `;
+}
+else{
+
+    /* =================================================
+       VARIABLES
+    ================================================= */
+
+    let selectedTopic = "All";
+    let selectedDifficulty = "All";
+    let searchText = "";
+
+
+    /* =================================================
+       STATS
+    ================================================= */
+
+    document.getElementById("totalQuestions").textContent =
+        questions.length;
+
+    document.getElementById("totalConcepts").textContent =
+        new Set(
+            questions.map(q => q.topic)
+        ).size;
+
+    document.getElementById("easyQuestions").textContent =
+        questions.filter(
+            q => q.difficulty.toLowerCase() === "easy"
+        ).length;
+
+    document.getElementById("hardQuestions").textContent =
+        questions.filter(
+            q => q.difficulty.toLowerCase() === "hard"
+        ).length;
+
+
+    /* =================================================
+       TOPICS
+    ================================================= */
+
+    const topicsBox =
+        document.getElementById("topics");
+
+
+    const topicNames = [
+        ...new Set(
+            questions.map(q => q.topic)
+        )
+    ];
+
+
+    /* ALL TOPICS CARD */
+
+    const allCard =
+        document.createElement("div");
+
+    allCard.className =
+        "topic-card active";
+
+    allCard.innerHTML = `
+        <h3>All Java Problems</h3>
+
+        <p>
+            Practice questions from every Java concept.
+        </p>
+
+        <div class="topic-count">
+            ${questions.length} Questions
+        </div>
+    `;
+
+    allCard.addEventListener(
+        "click",
+        function(){
+
+            selectedTopic = "All";
+
+            updateTopicCards();
+
+            renderProblems();
+
+            document
+                .getElementById("problemList")
+                .scrollIntoView({
+                    behavior:"smooth"
+                });
+        }
+    );
+
+    topicsBox.appendChild(allCard);
+
+
+    /* TOPIC CARDS */
+
+    topicNames.forEach(function(topic){
+
+        const count =
+            questions.filter(
+                q => q.topic === topic
+            ).length;
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "topic-card";
+
+
+        card.dataset.topic =
+            topic;
+
+
+        card.innerHTML = `
+
+            <h3>${escapeHTML(topic)}</h3>
+
+            <p>
+                Practice ${escapeHTML(topic)}
+                problems.
+            </p>
+
+            <div class="topic-count">
+                ${count} Questions
+            </div>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            function(){
+
+                selectedTopic = topic;
+
+                updateTopicCards();
+
+                renderProblems();
+
+                document
+                    .getElementById("problemList")
+                    .scrollIntoView({
+                        behavior:"smooth"
+                    });
+            }
+        );
+
+
+        topicsBox.appendChild(card);
+
+    });
+
+
+    /* =================================================
+       UPDATE TOPIC ACTIVE STATE
+    ================================================= */
+
+    function updateTopicCards(){
+
+        const cards =
+            document.querySelectorAll(
+                ".topic-card"
+            );
+
+
+        cards.forEach(function(card){
+
+            if(
+                selectedTopic === "All" &&
+                !card.dataset.topic
+            ){
+
+                card.classList.add("active");
+
+            }
+            else if(
+                card.dataset.topic ===
+                selectedTopic
+            ){
+
+                card.classList.add("active");
+
+            }
+            else{
+
+                card.classList.remove("active");
+
+            }
+
+        });
+
+    }
+
+
+    /* =================================================
+       FILTER BUTTONS
+    ================================================= */
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(function(button){
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    document
+                        .querySelectorAll(".filter")
+                        .forEach(
+                            b => b.classList.remove("active")
+                        );
+
+
+                    button.classList.add("active");
+
+
+                    selectedDifficulty =
+                        button.dataset.filter;
+
+
+                    renderProblems();
+
+                }
+            );
+
+        });
+
+
+    /* =================================================
+       SEARCH
+    ================================================= */
+
+    document
+        .getElementById("search")
+        .addEventListener(
+            "input",
+            function(event){
+
+                searchText =
+                    event.target.value
+                    .toLowerCase()
+                    .trim();
+
+                renderProblems();
+
+            }
+        );
+
+
+    /* =================================================
+       RENDER PROBLEMS
+    ================================================= */
+
+    function renderProblems(){
+
+        const list =
+            document.getElementById(
+                "problemList"
+            );
+
+
+        let filtered =
+            questions.filter(function(q){
+
+                const topicMatch =
+                    selectedTopic === "All" ||
+                    q.topic === selectedTopic;
+
+
+                const difficultyMatch =
+                    selectedDifficulty === "All" ||
+                    q.difficulty.toLowerCase() ===
+                    selectedDifficulty;
+
+
+                const searchMatch =
+                    searchText === "" ||
+
+                    q.title
+                        .toLowerCase()
+                        .includes(searchText) ||
+
+                    q.topic
+                        .toLowerCase()
+                        .includes(searchText) ||
+
+                    (
+                        q.statement &&
+                        q.statement
+                            .toLowerCase()
+                            .includes(searchText)
+                    );
+
+
+                return(
+                    topicMatch &&
+                    difficultyMatch &&
+                    searchMatch
+                );
+
+            });
+
+
+        list.innerHTML = "";
+
+
+        if(filtered.length === 0){
+
+            list.innerHTML = `
+
+                <div class="empty">
+
+                    <h3
+                        style="
+                        color:#d4af37;
+                        margin-bottom:10px;
+                        "
+                    >
+                        No problems found
+                    </h3>
+
+                    <p>
+                        Try another concept,
+                        difficulty or search term.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        filtered.forEach(function(q){
+
+            const card =
+                document.createElement("article");
+
+            card.className = "problem";
+
+
+            const difficulty =
+                q.difficulty.toLowerCase();
+
+
+            const description =
+                q.statement ||
+                "Solve this Java programming problem.";
+
+
+            card.innerHTML = `
+
+                <div class="problem-top">
+
+                    <span class="number">
+                        Problem #${q.number}
+                    </span>
+
+                    <span
+                        class="difficulty ${difficulty}"
+                    >
+                        ${escapeHTML(q.difficulty)}
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    ${escapeHTML(q.title)}
+                </h3>
+
+
+                <div class="topic">
+                    ${escapeHTML(q.topic)}
+                </div>
+
+
+                <div class="description">
+                    ${escapeHTML(
+                        shorten(description,150)
+                    )}
+                </div>
+
+
+                <button class="solve">
+                    Solve Problem →
+                </button>
+
+            `;
+
+
+            card
+                .querySelector(".solve")
+                .addEventListener(
+                    "click",
+                    function(){
+
+                        openProblem(q);
+
+                    }
+                );
+
+
+            list.appendChild(card);
+
+        });
+
+    }
+
+
+    /* =================================================
+       OPEN PROBLEM
+    ================================================= */
+
+    function openProblem(q){
+
+        /*
+         * Send the COMPLETE question object
+         * to problem.html.
+         *
+         * This means problem.html can display:
+         * title
+         * statement
+         * explanation
+         * input
+         * output
+         * sample input
+         * sample output
+         * constraints
+         * hint
+         */
+
+        localStorage.setItem(
+            "selectedProblem",
+            JSON.stringify(q)
+        );
+
+
+        window.location.href =
+            "problem.html";
+
+    }
+
+
+    /* =================================================
+       HELPER FUNCTIONS
+    ================================================= */
+
+    function escapeHTML(value){
+
+        if(value === undefined ||
+           value === null){
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
+
+    }
+
+
+    function shorten(text,maxLength){
+
+        if(!text){
+            return "";
+        }
+
+
+        text = String(text);
+
+
+        if(text.length <= maxLength){
+            return text;
+        }
+
+
+        return text.substring(
+            0,
+            maxLength
+        ) + "...";
+
+    }
+
+
+    /* =================================================
+       FIRST LOAD
+    ================================================= */
+
+    renderProblems();
+
+}
+
+</script>
+
+</body>
+</html>
